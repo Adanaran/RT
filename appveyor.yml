@@ -212,7 +212,7 @@ before_build:
 
 # scripts to run after build
 after_build:
-  - ps: "msbuild RatTracker.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /t:publish"
+  - ps: msbuild RatTracker.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /t:publish
 
 # to run your custom scripts instead of automatic MSBuild
 #build_script:

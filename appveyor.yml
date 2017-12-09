@@ -41,12 +41,10 @@ build:
 
 before_build:
   - nuget restore
-  - ps: "$env:ApplicationVersion=$env:APPVEYOR_BUILD_VERSION;$env:UpdateUrl='https://noctuidae.eu/rt/';$env:PublishUrl='https://noctuidae.eu/rt/';"
+  - ps: "if (!$env:APPVEYOR_PULL_REQUEST_NUMBER) { $env:ApplicationVersion=$env:APPVEYOR_BUILD_VERSION;$env:UpdateUrl='https://noctuidae.eu/rt/';$env:PublishUrl='https://noctuidae.eu/rt/';$mypwd = ConvertTo-SecureString -String \"$env:certpw\" -Force –AsPlainText\nImport-PfxCertificate –FilePath C:\\projects\\RatTracker\\RatTracker\\RatTracker_1_TemporaryKey.pfx cert:\\currentuser\\my -Password $mypwd }"
 
 after_build:
   - ps: if (!$env:APPVEYOR_PULL_REQUEST_NUMBER) {
-       $mypwd = ConvertTo-SecureString -String \"$env:certpw\" -Force –AsPlainText;
-       Import-PfxCertificate –FilePath C:\\projects\\RatTracker\\RatTracker\\RatTracker_1_TemporaryKey.pfx cert:\\currentuser\\my -Password $mypwd;
        msbuild RatTracker.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /t:publish;
        $root = Resolve-Path .\RatTracker\bin\Release\app.publish;
        [IO.Directory]::GetFiles($root.Path, '*.*', 'AllDirectories') | % { Push-AppveyorArtifact $_ -FileName $_.Substring($root.Path.Length + 1) -DeploymentName RatTracker; }

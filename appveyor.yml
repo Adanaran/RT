@@ -213,6 +213,8 @@ before_build:
 # scripts to run after build
 after_build:
   - ps: msbuild RatTracker.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /t:publish
+  - ps: $root = Resolve-Path .\src\RatTracker\RatTracker\publish;
+     [IO.Directory]::GetFiles($root.Path, '*.*', 'AllDirectories') | % { Push-AppveyorArtifact $_ -FileName $_.Substring($root.Path.Length + 1) -DeploymentName RatTracker }
 
 # to run your custom scripts instead of automatic MSBuild
 #build_script:
@@ -244,10 +246,6 @@ notifications:
     auth_token:
       secure: kBl9BlxvRMr9liHmnBs14A==
     template: "{{#passed}}:white_check_mark:{{/passed}}{{#failed}}:x:{{/failed}} [Build {{&projectName}} {{buildVersion}} {{status}}]({{buildUrl}}) (commit {{commitUrl}} by @{{&commitAuthorUsername}})"
-
-artifacts:
-  - path: publish\**\*
-    name: RatTracker
 
 deploy:
   provider: FTP

@@ -41,7 +41,13 @@ build:
 
 before_build:
   - nuget restore
-  - ps: "$env:ApplicationVersion=$env:APPVEYOR_BUILD_VERSION;$env:UpdateUrl='https://noctuidae.eu/rt/';$env:PublishUrl='https://noctuidae.eu/rt/';$mypwd = ConvertTo-SecureString -String \"$env:certpw\" -Force –AsPlainText\nImport-PfxCertificate –FilePath C:\\projects\\RatTracker\\RatTracker\\RatTracker_1_TemporaryKey.pfx cert:\\currentuser\\my -Password $mypwd"
+  - ps: if (!$env:APPVEYOR_PULL_REQUEST_NUMBER) {
+       $env:ApplicationVersion=$env:APPVEYOR_BUILD_VERSION;
+       $env:UpdateUrl='https://noctuidae.eu/rt/';
+       $env:PublishUrl='https://noctuidae.eu/rt/';
+       $mypwd = ConvertTo-SecureString -String \"$env:certpw\" -Force –AsPlainText;
+       Import-PfxCertificate –FilePath C:\\projects\\RatTracker\\RatTracker\\RatTracker_1_TemporaryKey.pfx cert:\\currentuser\\my -Password $mypwd;
+     }
 
 after_build:
   - ps: if (!$env:APPVEYOR_PULL_REQUEST_NUMBER) {

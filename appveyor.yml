@@ -249,7 +249,7 @@ notifications:
 
 deploy:
   provider: FTP
-  protocoll: sftp
+  protocol: sftp
   host: noctuidae.eu:45000
   username: malte
   password:

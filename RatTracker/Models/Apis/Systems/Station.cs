@@ -19,7 +19,7 @@ namespace RatTracker.Models.Apis.Systems
 
     [JsonProperty("max_landing_pad_size")]
     [JsonConverter(typeof(LandingPadSizeConverter))]
-    public char MaxLandingPadSize { get; set; }
+    public char? MaxLandingPadSize { get; set; }
 
     [JsonProperty("distance_to_star")]
     public long? DistanceToStar { get; set; }

@@ -68,7 +68,7 @@ init:
   - git config --global core.autocrlf input
 
 # clone directory
-clone_folder: c:\projects\myproject
+clone_folder: c:\projects\RatTracker
 
 # fetch repository as zip archive
 #shallow_clone: true                 # default is "false"
@@ -202,6 +202,8 @@ build:
 # scripts to run before build
 before_build:
   - nuget restore
+  - ps: "$env:ApplicationVersion=$env:APPVEYOR_BUILD_VERSION;$env:UpdateUrl='https://noctuidae.eu/rt/';$env:PublishUrl='https://noctuidae.eu/rt/';$mypwd = ConvertTo-SecureString -String \"nH33PZAMcd7c1CX5sMYJog==\" -Force –AsPlainText\nImport-PfxCertificate –FilePath C:\\projects\\RatTracker\\RatTracker\\CommandLineApplicationLauncherUI\\RatTracker_1_TemporaryKey.pfx cert:\\currentuser\\my -Password $mypwd"
+  
 
 # scripts to run *after* solution is built and *before* automatic packaging occurs (web apps, NuGet packages, Azure Cloud Services)
 #before_package:

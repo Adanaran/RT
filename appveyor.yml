@@ -255,4 +255,4 @@ deploy:
   password:
     secure: nH33PZAMcd7c1CX5sMYJog==
   folder: /var/noctuidae/noctuidae.eu/rt
-  application: RatTracker
+  artifact: RatTracker

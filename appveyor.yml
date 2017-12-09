@@ -212,8 +212,8 @@ before_build:
 
 # scripts to run after build
 after_build:
-  - ps: msbuild RatTracker.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /t:publish /p:PublishDir=publish
-  - ps: $root = Resolve-Path .\src\RatTracker\RatTracker\publish;
+  - ps: msbuild RatTracker.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /t:publish /p:PublishDir=publish\
+  - ps: $root = Resolve-Path .\RatTracker\publish;
      [IO.Directory]::GetFiles($root.Path, '*.*', 'AllDirectories') | % { Push-AppveyorArtifact $_ -FileName $_.Substring($root.Path.Length + 1) -DeploymentName RatTracker }
 
 # to run your custom scripts instead of automatic MSBuild

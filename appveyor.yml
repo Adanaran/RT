@@ -69,7 +69,7 @@ deploy:
   username: malte
   password:
     secure: nH33PZAMcd7c1CX5sMYJog==
-  folder: //var/noctuidae/noctuidae.eu/rt/
+  folder: rt/
   artifact: RatTracker
   on:
     branch: master
